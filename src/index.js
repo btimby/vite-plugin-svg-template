@@ -19,7 +19,16 @@ function resolve(id) {
         matched,
     };
 }
-  
+
+function makeId(length) {
+    let result = [];
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < length; i++) {
+        result[i] = characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result.join('');
+}
+
 function svgTemplatePlugin(options = {}) {
     const compilerOptions = {};
 
