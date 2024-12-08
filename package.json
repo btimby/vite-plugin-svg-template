@@ -1,0 +1,30 @@
+{
+  "name": "vite-plugin-svg-template",
+  "version": "1.0.0",
+  "description": "Import SVG as template src.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/btimby/vite-plugin-svg-template.git"
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "svg",
+    "src",
+    "template"
+  ],
+  "author": "Ben Timby <btimby@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/btimby/vite-plugin-svg-template/issues"
+  },
+  "homepage": "https://github.com/btimby/vite-plugin-svg-template#readme",
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.5.13",
+    "node-html-parser": "^6.1.13"
+  }
+}
