@@ -46,3 +46,13 @@ export default {
 /* You can define additional styles here */
 </style>
 ```
+
+## Notes
+
+If you use `v-bind` in your SVG templates and use optimization (the default) you will need to add the following to the document's root `<svg>` tag.
+
+```xml
+<svg ....
+   xmlns:v-bind="https://vuejs.org/v2/api/#v-bind"
+>
+```
