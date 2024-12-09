@@ -69,17 +69,19 @@ function svgTemplatePlugin(options) {
             // console.log(id);
             source = readFileSync(idWithoutQuery, 'utf8');
 
-            if (options.scopeCss) {
-                const doc = HTMLParser.parse(source);
-                const svg = doc.querySelector('svg');
-                const style = doc.querySelector('defs > style');
+            const doc = HTMLParser.parse(source);
+            const svg = doc.querySelector('svg');
+            const style = doc.querySelector('defs > style');
 
-                if (svg && style) {
+            if (svg && style) {
+                if (options.scopeCss) {
                     const idStr = makeId(8);
                     svg.setAttribute(SCOPE_ATTR, idStr);
                     style.set_content(`svg[${SCOPE_ATTR}="${idStr}"] {\n${style.rawText}}`);
-                    source = svg.toString();
                 }
+                style.setAttribute("is", "style");
+                style.tagName = "component";
+                source = svg.toString();
             }
 
             const { code: render, map } = compileTemplate({
