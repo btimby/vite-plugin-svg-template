@@ -30,6 +30,7 @@
     "mocha": "^11.0.1"
   },
   "dependencies": {
-    "node-html-parser": "^6.1.13"
+    "node-html-parser": "^6.1.13",
+    "svgo": "^3.3.2"
   }
 }

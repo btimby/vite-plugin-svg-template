@@ -1,6 +1,7 @@
-import { readFileSync } from 'fs';
+import { readFile } from 'fs/promises';
 import HTMLParser from 'node-html-parser';
 import { compileTemplate } from '@vue/compiler-sfc';
+import { optimize as optimizeSvg } from 'svgo';
 
 const STRIP_TAGS = [
     'sodipodi:namedview',
@@ -9,20 +10,21 @@ const SCOPE_ATTR = 'data-id-css-scope';
 const DEFAULT_OPTIONS = {
     scopeCss: true,
     stripTags: STRIP_TAGS,
+    optimize: true,
 };
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const CHARS_LEN = CHARS.length;
 
 function parseId(id) {
-    const [idWithoutQuery, query] = id.split('?', 2);
+    const [path, query] = id.split('?', 2);
     const params = Object.fromEntries(new URLSearchParams(query));
     const matched = (
-        idWithoutQuery.endsWith('.svg') &&
+        path.endsWith('.svg') &&
         params.type === 'template'
     );
   
     return {
-        idWithoutQuery,
+        path,
         params,
         matched,
     };
@@ -55,13 +57,17 @@ function svgTemplatePlugin(options) {
         name: 'svg-template',
 
         async transform(source, id) {
-            const { idWithoutQuery, params, matched } = parseId(id);
+            const { path, params, matched } = parseId(id);
 
             if (!matched) {
                 return;
             }
 
-            source = readFileSync(idWithoutQuery, 'utf8');
+            source = await readFile(path, 'utf8');
+
+            if (options.optimize) {
+                source = optimizeSvg(source, { path }).data;
+            }
 
             const doc = HTMLParser.parse(source);
             const svg = doc.querySelector('svg');
