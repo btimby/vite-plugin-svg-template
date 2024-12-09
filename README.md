@@ -8,7 +8,7 @@ The main benefits of this approach over other svg plugins or methods are:
  - You can edit the .svg file with a graphical editor, like Inkscape.
  - You can use placeholders and other template language elements like `{{ replaceMe }}`.
 
-This plugin handles any embedded styles within the .svg file by scoping them to the `<svg>` tag. You can apply additional styles in the component's style section.
+This plugin handles any embedded styles within the .svg file by scoping them to the `<svg>` tag. You can apply additional styles in the component's style section. Note the ordering of the plugins, the SVG plugin should run BEFORE the vue plugin.
 
 ## Example
 
