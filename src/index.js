@@ -4,6 +4,10 @@ import { compileTemplate } from '@vue/compiler-sfc';
 
 const STYLE = /<style[^>]*>([\s\S]*)<\/style>/mig
 const SCOPE_ATTR = 'data-id-css-scope';
+const DEFAULT_OPTIONS = {
+    scopeCss: true,
+    stripTags: [],
+};
 
 function resolve(id) {
     const [idWithoutQuery, query] = id.split('?', 2);
@@ -29,7 +33,11 @@ function makeId(length) {
     return result.join('');
 }
 
-function svgTemplatePlugin(options = {}) {
+function svgTemplatePlugin(options) {
+    options = {
+        ...DEFAULT_OPTIONS,
+        ...options,
+    };
     const compilerOptions = {};
 
     if (options.stripTags) {
@@ -61,15 +69,17 @@ function svgTemplatePlugin(options = {}) {
             // console.log(id);
             source = readFileSync(idWithoutQuery, 'utf8');
 
-            const doc = HTMLParser.parse(source);
-            const svg = doc.querySelector('svg');
-            const style = doc.querySelector('defs > style');
+            if (options.scopeCss) {
+                const doc = HTMLParser.parse(source);
+                const svg = doc.querySelector('svg');
+                const style = doc.querySelector('defs > style');
 
-            if (svg && style) {
-                const idStr = makeId(8);
-                svg.setAttribute(SCOPE_ATTR, idStr);
-                style.set_content(`svg[${SCOPE_ATTR}="${idStr}"] {\n${style.rawText}}`);
-                source = svg.toString();
+                if (svg && style) {
+                    const idStr = makeId(8);
+                    svg.setAttribute(SCOPE_ATTR, idStr);
+                    style.set_content(`svg[${SCOPE_ATTR}="${idStr}"] {\n${style.rawText}}`);
+                    source = svg.toString();
+                }
             }
 
             const { code: render, map } = compileTemplate({
