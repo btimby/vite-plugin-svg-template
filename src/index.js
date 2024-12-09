@@ -68,8 +68,8 @@ function svgTemplatePlugin(options = {}) {
             if (svg && style) {
                 const idStr = makeId(8);
                 svg.setAttribute(SCOPE_ATTR, idStr);
-                style.set_content(`svg[${SCOPE_ATTR}="${idStr}"] {\n${style.rawText}\n}`);
-                source = svn.toString();
+                style.set_content(`svg[${SCOPE_ATTR}="${idStr}"] {\n${style.rawText}}`);
+                source = svg.toString();
             }
 
             const { code: render, map } = compileTemplate({

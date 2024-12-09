@@ -1,10 +1,11 @@
 {
   "name": "vite-plugin-svg-template",
+  "type": "module",
   "version": "1.0.0",
   "description": "Import SVG as template src.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,8 @@
   "homepage": "https://github.com/btimby/vite-plugin-svg-template#readme",
   "devDependencies": {
     "@vue/compiler-sfc": "^3.5.13",
+    "chai": "^5.1.2",
+    "mocha": "^11.0.1",
     "node-html-parser": "^6.1.13"
   }
 }
