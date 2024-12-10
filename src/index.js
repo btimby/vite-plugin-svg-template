@@ -11,6 +11,7 @@ const DEFAULT_OPTIONS = {
     scopeCss: true,
     stripTags: STRIP_TAGS,
     optimize: true,
+    optimizeConfig: {},
 };
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const CHARS_LEN = CHARS.length;
@@ -66,7 +67,10 @@ function svgTemplatePlugin(options) {
             source = await readFile(path, 'utf8');
 
             if (options.optimize) {
-                source = optimizeSvg(source, { path }).data;
+                source = optimizeSvg(source, {
+                    ...options.optimizeConfig,
+                    path,
+                }).data;
             }
 
             const doc = HTMLParser.parse(source);
