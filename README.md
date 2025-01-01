@@ -60,6 +60,6 @@ If you use `v-bind` in your SVG templates and use optimization (the default) you
 >
 ```
 
-You can disable optimization by setting the plugin option `optimize: false`. Optimization is enabled by default and uses some sane defaults. See the svgo docs for configuration details.
+You can disable optimization by setting the plugin option `optimize: false`. Optimization is enabled by default and uses some sane defaults. You can override the svgo config using the plugin option `optimizeConfig`. See the svgo docs for configuration details.
 
 https://svgo.dev/docs/introduction/

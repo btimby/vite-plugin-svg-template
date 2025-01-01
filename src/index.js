@@ -60,10 +60,10 @@ function svgTemplatePlugin(options) {
         ...DEFAULT_OPTIONS,
         ...options,
     };
-    if (options.optimize !== false) {
-        options.optimize = {
+    if (options.optimize) {
+        options.optimizeConfig = {
             ...DEFAULT_SVGO_CONFIG,
-            ...options.optimize,
+            ...options.optimizeConfig,
         };
     }
     const compilerOptions = {};
