@@ -9,7 +9,7 @@ The main benefits of this approach over other svg plugins or methods are:
 - You can edit the .svg file with a graphical editor, like Inkscape.
 - You can use placeholders and other template language elements like `{{ replaceMe }}`.
 
-This plugin handles any embedded styles within the .svg file by scoping them to the `<svg>` tag. You can apply additional styles in the component's style section. Note the ordering of the plugins, the SVG plugin should run BEFORE the vue plugin.
+This plugin handles any embedded styles within the .svg file by scoping them to the `<svg>` tag. You can apply additional styles in the component's style section, vue's scoping works. Note the ordering of the plugins, the SVG plugin should run AFTER the vue plugin.
 
 ## Example
 
@@ -23,8 +23,8 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [
-        vueSvgTemplate(),
         vue(),
+        vueSvgTemplate(),
     ],
     ...
 });
@@ -54,7 +54,12 @@ export default {
 If you use `v-bind` in your SVG templates and use optimization (the default) you will need to add the following to the document's root `<svg>` tag.
 
 ```xml
-<svg ....
+<svg
    xmlns:v-bind="https://vuejs.org/v2/api/#v-bind"
+   ...
 >
 ```
+
+You can disable optimization by setting the plugin option `optimize: false`. Optimization is enabled by default and uses some sane defaults. See the svgo docs for configuration details.
+
+https://svgo.dev/docs/introduction/

@@ -13,6 +13,20 @@ const DEFAULT_OPTIONS = {
     optimize: true,
     optimizeConfig: {},
 };
+// NOTE: Disable removeViewBox as it clobbers usefulness of SVG.
+// https://github.com/svg/svgo/issues/1128
+const DEFAULT_SVGO_CONFIG = {
+    plugins: [
+        {
+            name: 'preset-default',
+            params: {
+                overrides: {
+                    removeViewBox: false,
+                },
+            },
+        },
+    ],
+};
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const CHARS_LEN = CHARS.length;
 
@@ -46,6 +60,12 @@ function svgTemplatePlugin(options) {
         ...DEFAULT_OPTIONS,
         ...options,
     };
+    if (options.optimize !== false) {
+        options.optimize = {
+            ...DEFAULT_SVGO_CONFIG,
+            ...options.optimize,
+        };
+    }
     const compilerOptions = {};
 
     if (options.stripTags) {
@@ -67,10 +87,10 @@ function svgTemplatePlugin(options) {
             source = await readFile(path, 'utf8');
 
             if (options.optimize) {
-                source = optimizeSvg(source, {
+                ({ data: source } = optimizeSvg(source, {
                     ...options.optimizeConfig,
                     path,
-                }).data;
+                }));
             }
 
             const doc = HTMLParser.parse(source);
